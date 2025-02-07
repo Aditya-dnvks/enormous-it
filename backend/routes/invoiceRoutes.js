@@ -1,7 +1,7 @@
-const db = require("../dbConfig/dbconfig");
 const jwt = require("jsonwebtoken");
 
 const express = require("express");
+const getInvoiceData = require("../controllers/invoiceController");
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -23,14 +23,6 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-router.get("/", authenticateToken, (req, res) => {
-  db.query("SELECT * FROM invoices", (err, data) => {
-    if (err) {
-      res.status(500).json({ message: "Database error", error: err });
-    } else {
-      res.json(data);
-    }
-  });
-});
+router.get("/", authenticateToken, getInvoiceData);
 
 module.exports = router;
