@@ -6,8 +6,6 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const loginUser = (req, res) => {
   const { email, password } = req.body;
 
-  console.log(email, password);
-
   db.query(
     "SELECT * FROM users WHERE email = ?",
     [email],
@@ -18,7 +16,6 @@ const loginUser = (req, res) => {
 
       const user = results[0];
 
-      console.log("user", user);
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
         return res.status(400).json({ message: "Invalid credentials" });
